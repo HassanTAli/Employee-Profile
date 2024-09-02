@@ -43,7 +43,9 @@ const formSchema = z.object({
 const EditDialog = ({ data }: ProfileProps): JSX.Element => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -56,6 +58,7 @@ const EditDialog = ({ data }: ProfileProps): JSX.Element => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
     const token = Cookie.get("access_token");
     try {
       const response = await fetch(`${API_URL}/api/profile/`, {
@@ -69,7 +72,6 @@ const EditDialog = ({ data }: ProfileProps): JSX.Element => {
 
       const responseData = await response.json();
       if (response.ok) {
-        console.log("Profile updated successfully:", data);
         setDialogOpen(false);
         router.refresh();
       } else {
@@ -78,6 +80,8 @@ const EditDialog = ({ data }: ProfileProps): JSX.Element => {
     } catch (error) {
       setErrorMessage("An error occurred during profile update.");
       console.error("An error occurred during profile update:", error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -164,7 +168,13 @@ const EditDialog = ({ data }: ProfileProps): JSX.Element => {
                 </FormItem>
               )}
             />
-            <Button type="submit">Update Profile</Button>
+            <Button type="submit">
+              {isLoading ? (
+                <span className="spinner-border animate-spin inline-block w-4 h-4 border-2 rounded-full border-white" />
+              ) : (
+                "Update Profile"
+              )}
+            </Button>
           </form>
         </Form>
       </DialogContent>

@@ -22,8 +22,8 @@ const Profile = ({ data }: ProfileProps): JSX.Element => {
             width={60}
             height={60}
             alt="profile"
-            src={data.cover}
-            className="rounded-full"
+            src={data.image}
+            className="rounded-full h-[60px] w-[60px] object-cover"
           />
         </div>
       </div>
@@ -43,8 +43,8 @@ const Profile = ({ data }: ProfileProps): JSX.Element => {
                   width={100}
                   height={100}
                   alt="profile"
-                  src={data.cover}
-                  className="rounded-xl"
+                  src={data.image}
+                  className="rounded-xl h-[100px] w-[100px] object-cover"
                 />
               </div>
               <div className="flex flex-col gap-2">

@@ -10,8 +10,6 @@ import { NavItemProps } from "@/types";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
-const NavProps = {};
-
 const NavItem = ({
   label,
   icon,
@@ -22,9 +20,8 @@ const NavItem = ({
   const [toggle, setToggle] = useState(false);
   const pathname = usePathname();
 
-  console.log({ pathname });
-
-  const isActive = pathname === href || pathname.includes(`${href}`);
+  const isActive =
+    pathname === href || pathname.split("/")[1] === href.split("/")[1];
 
   return (
     <>

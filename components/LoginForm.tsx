@@ -18,6 +18,7 @@ import {
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const formSchema = z.object({
   email: z
@@ -31,6 +32,7 @@ const formSchema = z.object({
 
 const LoginForm = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,6 +42,7 @@ const LoginForm = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
     try {
       const response = await fetch(
         "https://cyparta-backend-gf7qm.ondigitalocean.app/api/login/",
@@ -55,13 +58,14 @@ const LoginForm = () => {
       const data = await response.json();
       if (response.ok) {
         Cookie.set("access_token", data.access, { expires: 7 });
-        console.log("Login successful:", data);
         router.push("/Employee/profile");
       } else {
-        console.log("Login failed:", data);
+        console.error("Login failed:", data);
       }
     } catch (error) {
       console.error("An error occurred during login:", error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -103,7 +107,13 @@ const LoginForm = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit">Login</Button>
+            <Button type="submit">
+              {isLoading ? (
+                <span className="spinner-border animate-spin inline-block w-4 h-4 border-2 rounded-full border-white" />
+              ) : (
+                "Login"
+              )}
+            </Button>
           </form>
         </Form>
       </div>
