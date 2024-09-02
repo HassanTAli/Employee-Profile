@@ -1,19 +1,41 @@
+"use client";
+
 import { ProfileDetails } from "@/types";
-import IconComponent from "./Icon";
 import Image from "next/image";
+import { deleteCookie } from "cookies-next";
+
+import IconComponent from "./Icon";
 import { Button } from "./ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+
 import PersonalInformation from "./PersonalInformation";
 import EditDialog from "./EditDialog";
+import { useRouter } from "next/navigation";
 
 interface ProfileProps {
   data: ProfileDetails;
 }
 
 const Profile = ({ data }: ProfileProps): JSX.Element => {
+  const router = useRouter();
   return (
     <div>
       <div className="flex items-center justify-end gap-[35px]">
+        <Button
+          className="hover:bg-white bg-[#A2A1A81A] rounded-sm p-3"
+          onClick={() => {
+            deleteCookie("access_token");
+            router.refresh;
+            router.push("/");
+          }}
+        >
+          <IconComponent
+            icon="material-symbols:logout"
+            height={24}
+            width={24}
+            color="black"
+          />
+        </Button>
         <div className="bg-[#A2A1A81A] rounded-sm p-3">
           <IconComponent icon="ph:bell-bold" height={24} width={24} />
         </div>
