@@ -5,9 +5,10 @@ import React, { useEffect, useState } from "react";
 import NavItem from "./ui/NavItem";
 import { isAuth } from "@/lib/utils";
 import Link from "next/link";
-import { Button } from "./ui/button";
+import { usePathname } from "next/navigation";
 
 const Sidebar = () => {
+  const pathname = usePathname();
   const [authenticated, setAuthenticated] = useState(false);
   useEffect(() => {
     if (isAuth) {
@@ -15,7 +16,7 @@ const Sidebar = () => {
     } else {
       setAuthenticated(false);
     }
-  }, []);
+  }, [authenticated]);
 
   const navigation = [
     {
@@ -79,7 +80,7 @@ const Sidebar = () => {
       <div className="w-10/12 mx-auto flex items-center justify-center">
         <Image width={247} height={158} src={"/images/logo.png"} alt="Logo" />
       </div>
-      {authenticated ? (
+      {pathname !== "/" ? (
         <ul className="flex flex-col gap-3">
           {navigation?.map((item, idx) => (
             <NavItem
@@ -95,11 +96,6 @@ const Sidebar = () => {
       ) : (
         <div className="mx-auto w-2/3">
           <p>Please Login to access Data </p>
-          <div className="text-center mt-2">
-            <Link href={"/"} className="text-blue-500 mr-2">
-              Login
-            </Link>
-          </div>
         </div>
       )}
     </div>

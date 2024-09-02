@@ -25,7 +25,6 @@ const Profile = ({ data }: ProfileProps): JSX.Element => {
           className="hover:bg-white bg-[#A2A1A81A] rounded-sm p-3"
           onClick={() => {
             deleteCookie("access_token");
-            router.refresh;
             router.push("/");
           }}
         >
