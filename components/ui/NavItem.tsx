@@ -10,6 +10,8 @@ import { NavItemProps } from "@/types";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
+const NavProps = {};
+
 const NavItem = ({
   label,
   icon,

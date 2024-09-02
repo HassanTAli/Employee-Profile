@@ -72,7 +72,6 @@ const EditDialog = ({ data }: ProfileProps): JSX.Element => {
         console.log("Profile updated successfully:", data);
         setDialogOpen(false);
         router.refresh();
-        router.push("/Employee/profile");
       } else {
         setErrorMessage(responseData.message || "Profile update failed.");
       }

@@ -15,7 +15,9 @@ export default async function getProfileDetails(
     cache: "no-store",
   });
 
-  if (!res.ok) throw new Error("failed to get businesses");
+  if (!res.ok) {
+    throw new Error("Failed to fetch profile details");
+  }
 
   return res.json();
 }

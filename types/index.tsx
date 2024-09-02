@@ -9,14 +9,14 @@ export type NavItemProps =
       label: string;
       icon: string;
       href: string;
-      isNested: true;
+      isNested: boolean;
       subItemProps: SubItemProps[];
     }
   | {
       label: string;
       icon: string;
       href: string;
-      isNested: false;
+      isNested: boolean;
       subItemProps?: never;
     };
 
